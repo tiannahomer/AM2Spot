@@ -1,9 +1,9 @@
 from parse import parse_csv_to_dict
 import requests
+import json
 
-
-CLIENT_ID = 'REDACTED'
-CLIENT_SECRET = 'REDACTED'
+CLIENT_ID = '3c0738c7ace34826904fbaa5a1bb98ff'
+CLIENT_SECRET = 'f2f093008073420d8b19b58686a156e5'
 
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 
@@ -21,7 +21,8 @@ auth_response_data = auth_response.json()
 access_token = auth_response_data['access_token']
 
 headers = {
-    'Authorization': 'Bearer {token}'.format(token=access_token)
+    'Authorization': 'Bearer {token}'.format(token=access_token),
+    'Content-Type': 'application/json',
 }
 
 # base URL of all Spotify API endpoints
@@ -29,19 +30,33 @@ BASE_URL = 'https://api.spotify.com/v1/'
 
 data = parse_csv_to_dict()
 
-print(data)
+# print(data)
 
-for row in data[:5]:
-    track = row[0].replace(' ', '%')
-    artist = row[1].replace(' ', '%')
-    album = row[2].replace(' ', '%')
+for row in data[:3]:
+    track = row[0].replace(' ', '+')
+    artist = row[1].replace(' ', '+')
+    album = row[2].replace(' ', '=')
 
-    print('Track: ' + track + ' Artist: ' + artist + ' Album: ' + album)
+    # print('Track: ' + track + ' Artist: ' + artist + ' Album: ' + album)
+    search_track = requests.get(BASE_URL + 'search?q=' + track + ' ' + artist + '&type=track&limit=1',
+                     headers=headers
+                     )
+    search_track = search_track.json()
+    #print(r)
 
-    #(row[0])
+    track_list = search_track['tracks']['items']
+    print(track_list)
 
-# search
-for rows in data[:5]:
-    requests.get(BASE_URL + 'search?q',
-                 )
+    for tracks in track_list:
+        track_id = tracks['id']
+        print(track_id)
+
+    payload = {"ids": }
+    #Add to spotify library
+    add_track = requests.put(BASE_URL + 'me/tracks',
+                             content-type=application/json,
+                             scope=user-library-modify)
+
+
+
 
