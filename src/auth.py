@@ -2,8 +2,8 @@ from parse import parse_csv_to_dict
 import requests
 import json
 
-CLIENT_ID = '3c0738c7ace34826904fbaa5a1bb98ff'
-CLIENT_SECRET = 'f2f093008073420d8b19b58686a156e5'
+CLIENT_ID = 'REDACTED'
+CLIENT_SECRET = 'REDACTED'
 
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 
